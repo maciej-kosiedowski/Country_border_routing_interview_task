@@ -22,7 +22,7 @@ test:
   script:
     - *prepare
     # run laravel tests
-    - ./vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+    - ./vendor/bin/phpunit --coverage-text --colors=never --stderr
   artifacts:
     paths:
       - ./storage/logs # for debugging
