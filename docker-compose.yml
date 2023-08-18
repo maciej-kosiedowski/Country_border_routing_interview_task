@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    container_name: interview-task
+    environment:
+      PHP_INI_SCAN_DIR: "/usr/local/etc/php/custom.d:/usr/local/etc/php/conf.d"
+    volumes:
+      - ./:/var/www/html:cached
+      - ./docker/php:/usr/local/etc/php/custom.d
+    networks:
+      - interview-task-network
+
+  nginx:
+    image: nginx
+    links:
+      - app
+    volumes:
+      - ./public:/var/www/html/public:cached
+      - ./storage/app:/var/www/html/storage/app:cached
+      - ./storage/nginx-logs:/var/log/nginx:cached
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:cached
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    networks:
+      - interview-task-network
+
+#Docker Networks
+networks:
+  interview-task-network:
+    driver: bridge

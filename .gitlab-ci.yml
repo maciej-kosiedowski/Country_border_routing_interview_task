@@ -1,0 +1,30 @@
+stages:
+  - test
+
+.prepare: &prepare
+  - composer install --prefer-dist --no-ansi --no-interaction --no-progress
+  - cp .env.example .env
+  # Generate an application key. Re-cache.
+  - php artisan key:generate
+  - composer dumpautoload
+
+php-lint:
+  image: mallardduck/gitlab-ci-pipeline-php:8.1
+  stage: test
+  script:
+    - *prepare
+    - ./vendor/bin/pint --test
+
+test:
+  image: mallardduck/gitlab-ci-pipeline-php:8.1
+  stage: test
+
+  script:
+    - *prepare
+    # run laravel tests
+    - ./vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+  artifacts:
+    paths:
+      - ./storage/logs # for debugging
+    expire_in: 7 days
+    when: always
