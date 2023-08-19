@@ -49,6 +49,7 @@ class CalculateCountryLandDistanceControllerTest extends TestCase
             'AIA & ALA' => ['AIA', 'ALA'],
             'CRI & POL' => ['CRI', 'POL'],
             'MEX & GRC' => ['MEX', 'GRC'],
+            'POL & USA' => ['POL', 'USA'],
         ];
     }
 
@@ -61,5 +62,33 @@ class CalculateCountryLandDistanceControllerTest extends TestCase
             route('api.country.border.check', ['origin' => $origin, 'destination' => $destination])
         );
         $response->assertStatus(400);
+    }
+
+
+    public static function landConnectionButNoBorderDataProvider(): array
+    {
+        return [
+            'POL & FRA' => ['POL', 'FRA', ['POL', 'DEU', "FRA"]],
+            'POL & ITA' => ['POL', 'ITA', ['POL', 'SVK', 'AUT', 'ITA']],
+            'CZE & ITA' => ['CZE', 'ITA', ['CZE', 'AUT', 'ITA']],
+        ];
+    }
+
+    /**
+     * @dataProvider landConnectionButNoBorderDataProvider
+     */
+    public function testOriginCountryAndDestinationCountryHasLandConnectionButNoBorder(string $origin, string $destination, array $expected): void
+    {
+        $response = $this->getJson(
+            route('api.country.border.check', ['origin' => $origin, 'destination' => $destination])
+        );
+        $response->assertStatus(200);
+        $response->assertJson(
+            [
+                'data' => [
+                    'route' => $expected,
+                ],
+            ]
+        );
     }
 }
