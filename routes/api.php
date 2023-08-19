@@ -10,10 +10,3 @@ Route::name('api.')->group(function () {
         });
     });
 });
-
-Route::get('/test', function () {
-    $result = (new \App\Service\Country\Parser\CountryJsonParserService)->getCountryAndBorders();
-    dd($result);
-
-    return 'test';
-});
