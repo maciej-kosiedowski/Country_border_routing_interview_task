@@ -39,6 +39,10 @@ test structure:
 Note:
 It's only interview task and I don't have a lot of time in current weekend, so I wrote unit testing only to show How I will do that :) 
 
+#### How To run tests:
+```
+./vendor/bin/phpunit
+```
 
 ## Linters
 Project is using Laravel Pint (PHP-CS-Fixer under the hood) and phpStan
