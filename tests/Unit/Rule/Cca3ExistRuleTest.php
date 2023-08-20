@@ -1,18 +1,19 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace Tests\Unit\Rule;
 
 use App\Rules\Cca3ExistRule;
 use App\Service\Country\Parser\CountryDataParser;
 use JsonException;
-use Psy\Exception\RuntimeException;
-use Tests\TestCase;
 use Mockery;
 use Mockery\MockInterface;
+use Psy\Exception\RuntimeException;
+use Tests\TestCase;
 
 class Cca3ExistRuleTest extends TestCase
 {
-
     private Cca3ExistRule $cca3ExistRule;
 
     /**
@@ -43,10 +44,8 @@ class Cca3ExistRuleTest extends TestCase
     }
 
     /**
-     * @param string $value
-     *
-     * @return void
      * @throws JsonException
+     *
      * @dataProvider smallValueDataProvider
      */
     public function testSmallLetter(string $value): void
@@ -57,10 +56,8 @@ class Cca3ExistRuleTest extends TestCase
     }
 
     /**
-     * @param string $value
-     *
-     * @return void
      * @throws JsonException
+     *
      * @dataProvider InvalidValueDataProvider
      */
     public function testShouldFailIfDataIsNotInList(string $value): void
@@ -71,9 +68,6 @@ class Cca3ExistRuleTest extends TestCase
         });
     }
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
