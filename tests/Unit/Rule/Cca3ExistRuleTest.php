@@ -6,6 +6,7 @@ namespace Tests\Unit\Rule;
 
 use App\Rules\Cca3ExistRule;
 use App\Service\Country\Parser\CountryDataParser;
+use Illuminate\Translation\PotentiallyTranslatedString;
 use JsonException;
 use Mockery;
 use Mockery\MockInterface;
@@ -50,8 +51,8 @@ class Cca3ExistRuleTest extends TestCase
      */
     public function testSmallLetter(string $value): void
     {
-        $this->cca3ExistRule->validate('cca3', $value, function ($fail) {
-            echo $fail;
+        $this->cca3ExistRule->validate('cca3', $value, function (string $fail): PotentiallyTranslatedString {
+            return app(PotentiallyTranslatedString::class, ['string' => $fail]);
         });
     }
 
@@ -73,7 +74,7 @@ class Cca3ExistRuleTest extends TestCase
         parent::setUp();
         $this->instance(
             CountryDataParser::class,
-            Mockery::mock(CountryDataParser::class, function (MockInterface $mock) {
+            Mockery::mock(CountryDataParser::class, static function (MockInterface $mock) {
                 $mock->shouldReceive('getCca3')->andReturns(
                     [
                         'POL',

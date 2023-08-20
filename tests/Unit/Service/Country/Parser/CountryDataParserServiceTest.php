@@ -13,13 +13,9 @@ use Tests\TestCase;
 
 class CountryDataParserServiceTest extends TestCase
 {
-    /**
-     * @var CountryDataParser
-     */
     private CountryDataParser $countryDataParser;
 
     /**
-     * @return void
      * @throws JsonException
      */
     public function testGetCca3(): void
@@ -28,7 +24,6 @@ class CountryDataParserServiceTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws JsonException
      */
     public function testGetCountryAndBorders(): void
@@ -45,7 +40,6 @@ class CountryDataParserServiceTest extends TestCase
     }
 
     /**
-     * @return void
      * @throws JsonException
      */
     public function testGetLatitudeAndLongitude(): void
@@ -83,9 +77,6 @@ class CountryDataParserServiceTest extends TestCase
         ], $this->countryDataParser->getLatitudeAndLongitude());
     }
 
-    /**
-     * @return void
-     */
     public function setUp(): void
     {
         parent::setUp();
